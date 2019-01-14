@@ -13,7 +13,7 @@
 		<dependency>
 			<groupId>org.apache.storm</groupId>
 			<artifactId>storm-core</artifactId>
-			<version>1.2.1</version>
+			<version>1.2.2</version>
 			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
@@ -29,13 +29,13 @@
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
-			<version>3.2.1</version>
+			<version>20040616</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>15.0</version>
+			<version>27.0.1-jre</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
@@ -143,13 +143,6 @@
 						<goals>
 							<goal>exec</goal>
 						</goals>
-						<configuration>
-							<executable>java</executable>
-							<includeProjectDependencies>true</includeProjectDependencies>
-							<includePluginDependencies>false</includePluginDependencies>
-							<classpathScope>compile</classpathScope>
-							<mainClass>${main.class}</mainClass>
-						</configuration>
 					</execution>
 				</executions>
 				<configuration>
@@ -157,6 +150,7 @@
 					<includeProjectDependencies>true</includeProjectDependencies>
 					<includePluginDependencies>false</includePluginDependencies>
 					<classpathScope>compile</classpathScope>
+					<!--suppress UnresolvedMavenProperty -->
 					<mainClass>${main.class}</mainClass>
 				</configuration>
 			</plugin>
@@ -290,14 +284,6 @@
 						<goals>
 							<goal>deploy</goal>
 						</goals>
-						<configuration>
-							<reportPlugins>
-								<reportPlugin>
-									<groupId>org.apache.maven.plugins</groupId>
-									<artifactId>maven-project-info-reports-plugin</artifactId>
-								</reportPlugin>
-							</reportPlugins>
-						</configuration>
 					</execution>
 				</executions>
 				<configuration>

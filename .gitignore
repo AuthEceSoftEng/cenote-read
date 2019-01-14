@@ -15,6 +15,7 @@ local.properties
 .recommenders
 .idea
 write.iml
+read.iml
 
 # External tool builders
 .externalToolBuilders/

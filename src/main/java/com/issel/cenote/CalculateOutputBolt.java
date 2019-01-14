@@ -16,7 +16,7 @@ public class CalculateOutputBolt extends ShellBolt implements IRichBolt {
 
   @Override
   public void declareOutputFields(OutputFieldsDeclarer declarer) {
-    declarer.declare(new Fields("id", "partial_result"));
+    declarer.declare(new Fields("result", "return-info"));
   }
 
   @Override

@@ -3,19 +3,21 @@ package com.issel.cenote;
 
 import org.apache.storm.Config;
 import org.apache.storm.StormSubmitter;
-import org.apache.storm.drpc.LinearDRPCTopologyBuilder;
-import org.apache.storm.tuple.Fields;
+import org.apache.storm.drpc.DRPCSpout;
+import org.apache.storm.drpc.ReturnResults;
+import org.apache.storm.topology.TopologyBuilder;
 
 public class ReadTopology {
 
   public static void main(String[] args) throws Exception {
-    LinearDRPCTopologyBuilder builder = new LinearDRPCTopologyBuilder("read");
-    builder.addBolt(new GetDataFromCassandraBolt(), 12);
-    builder.addBolt(new CalculateOutputBolt(), 6).fieldsGrouping(new Fields("id"));
-    builder.addBolt(new AggregatorBolt(), 3).fieldsGrouping(new Fields("id"));
-
     Config conf = new Config();
+    TopologyBuilder builder = new TopologyBuilder();
+
+    builder.setSpout("drpc-spout", new DRPCSpout("read"), 2).setNumTasks(2);
+    builder.setBolt("calculate-data", new CalculateOutputBolt(), 4).setNumTasks(4).shuffleGrouping("drpc-spout");
+    builder.setBolt("return", new ReturnResults(), 4).setNumTasks(4).shuffleGrouping("calculate-data");
+
     conf.setNumWorkers(10);
-    StormSubmitter.submitTopologyWithProgressBar(args[0], conf, builder.createRemoteTopology());
+    StormSubmitter.submitTopologyWithProgressBar(args[0], conf, builder.createTopology());
   }
 }
